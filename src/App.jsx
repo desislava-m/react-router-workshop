@@ -1,4 +1,4 @@
-import Button from '@mui/material/Button';
+import Header from "../components/Header"
 
 
 function App() {
@@ -6,8 +6,7 @@ function App() {
 
   return (
     <>
-      <h1>React Router Workshop</h1>
-      <Button variant="contained">Button</Button>
+      <Header />
     </>
   )
 }

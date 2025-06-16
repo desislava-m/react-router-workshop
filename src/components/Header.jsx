@@ -13,16 +13,19 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from 'react-router-dom';
+import { useAuthContext } from '../contexts/AuthContext';
 
 const pages = [
     { title: 'Home', path: '/'},
     { title: 'Pricing', path: '/pricing'},
-    { title: 'Login', path: '/login'},
-    { title: 'Register', path: '/register'}
+    { title: 'Todos', path: '/todos'},
+    { title: 'Login', path: '/login', guestOnly: true},
+    { title: 'Register', path: '/register', guestOnly: true}
 ]
 const settings = ['Profile', 'Logout'];
 
 function Header() {
+  const { isAuthentiated } = useAuthContext();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -118,7 +121,7 @@ function Header() {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map(({ title, path }) => (
+            {pages.filter(({guestOnly}) => isAuthentiated ? !guestOnly : true).map(({ title, path }) => (
               <Button
                 component = {Link}
                 to={path}
@@ -130,6 +133,7 @@ function Header() {
               </Button>
             ))}
           </Box>
+          {isAuthentiated && (
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -159,6 +163,7 @@ function Header() {
               ))}
             </Menu>
           </Box>
+          )}
         </Toolbar>
       </Container>
     </AppBar>

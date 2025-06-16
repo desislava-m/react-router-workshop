@@ -13,6 +13,8 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import MuiCard from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
+import { useAuthContext } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Card = styled(MuiCard)(({ theme }) => ({
   display: 'flex',
@@ -71,6 +73,9 @@ export default function SignIn(props) {
     setOpen(false);
   };
 
+  const {login} = useAuthContext();
+  const navigate = useNavigate();
+
   const handleSubmit = async (event) => {
     
       event.preventDefault();
@@ -88,7 +93,9 @@ export default function SignIn(props) {
       }),
     })
       const result = await response.json();
-      console.log(result)
+      login(result);
+      navigate('/');
+      
   };
 
   const validateInputs = () => {

@@ -12,6 +12,8 @@ import CommentIcon from '@mui/icons-material/Comment';
 
 export default function TodoList() {
 
+    const [todos, setTodos] = useGetTodos();
+
     const [checked, setChecked] = React.useState([0]);
 
     const handleToggle = (value) => () => {
@@ -32,12 +34,12 @@ export default function TodoList() {
         <CssBaseline />
         <h1>Todo list</h1>
             <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-            {[0, 1, 2, 3].map((value) => {
-                const labelId = `checkbox-list-label-${value}`;
+            {todos.map((todo) => {
+                const labelId = `checkbox-list-label-${todo.id}`;
 
                 return (
                 <ListItem
-                    key={value}
+                    key={todo.id}
                     secondaryAction={
                     <IconButton edge="end" aria-label="comments">
                         <CommentIcon />
@@ -45,17 +47,17 @@ export default function TodoList() {
                     }
                     disablePadding
                 >
-                    <ListItemButton role={undefined} onClick={handleToggle(value)} dense>
+                    <ListItemButton role={undefined} onClick={handleToggle(todo.id)} dense>
                     <ListItemIcon>
                         <Checkbox
                         edge="start"
-                        checked={checked.includes(value)}
+                        checked={checked.includes(todo.id)}
                         tabIndex={-1}
                         disableRipple
                         inputProps={{ 'aria-labelledby': labelId }}
                         />
                     </ListItemIcon>
-                    <ListItemText id={labelId} primary={`Line item ${value + 1}`} />
+                    <ListItemText id={labelId} primary={`Line item ${todo.todo}`} />
                     </ListItemButton>
                 </ListItem>
                 );
@@ -63,6 +65,22 @@ export default function TodoList() {
             </List>
         </>
     )
+}
+
+function useGetTodos() {
+    const [ todos, setTodos] = React.useState([]);
+
+    React.useEffect(() => {
+        (async () => {
+            const response = await fetch('https://dummyjson.com/todos');
+            
+            const result = await response.json();
+
+            setTodos(result.todos)
+        })();
+    });
+
+    return [todos, setTodos];
 }
 
 

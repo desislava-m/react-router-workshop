@@ -1,4 +1,4 @@
-import { CssBaseline } from "@mui/material";
+import { CssBaseline, Box } from "@mui/material";
 import * as React from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -31,38 +31,47 @@ export default function TodoList() {
 
     return (
         <>
-        <CssBaseline />
-        <h1>Todo list</h1>
-            <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-            {todos.map((todo) => {
-                const labelId = `checkbox-list-label-${todo.id}`;
+            <CssBaseline />
+            <Box 
+                sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center", // horizontal centering
+                justifyContent: "center", // vertical centering if needed
+                minHeight: "100vh", // full screen height
+                }}>
+                <h1>Todo list</h1>
+                <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                {todos.map((todo) => {
+                    const labelId = `checkbox-list-label-${todo.id}`;
 
-                return (
-                <ListItem
-                    key={todo.id}
-                    secondaryAction={
-                    <IconButton edge="end" aria-label="comments">
-                        <CommentIcon />
-                    </IconButton>
-                    }
-                    disablePadding
-                >
-                    <ListItemButton role={undefined} onClick={handleToggle(todo.id)} dense>
-                    <ListItemIcon>
-                        <Checkbox
-                        edge="start"
-                        checked={checked.includes(todo.id)}
-                        tabIndex={-1}
-                        disableRipple
-                        inputProps={{ 'aria-labelledby': labelId }}
-                        />
-                    </ListItemIcon>
-                    <ListItemText id={labelId} primary={`Line item ${todo.todo}`} />
-                    </ListItemButton>
-                </ListItem>
-                );
-            })}
-            </List>
+                    return (
+                    <ListItem
+                        key={todo.id}
+                        secondaryAction={
+                        <IconButton edge="end" aria-label="comments">
+                            <CommentIcon />
+                        </IconButton>
+                        }
+                        disablePadding
+                    >
+                        <ListItemButton role={undefined} onClick={handleToggle(todo.id)} dense>
+                        <ListItemIcon>
+                            <Checkbox
+                            edge="start"
+                            checked={checked.includes(todo.id)}
+                            tabIndex={-1}
+                            disableRipple
+                            inputProps={{ 'aria-labelledby': labelId }}
+                            />
+                        </ListItemIcon>
+                        <ListItemText id={labelId} primary={`Line item ${todo.todo}`} />
+                        </ListItemButton>
+                    </ListItem>
+                    );
+                })}
+                </List>
+            </Box>
         </>
     )
 }
